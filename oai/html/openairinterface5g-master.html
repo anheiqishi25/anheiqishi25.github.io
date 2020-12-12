@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>3GPP分析</title>
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/demo/demo.css">
+    <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.easyui.min.js"></script>
+  </head>
+  <body>
+  <div>
+  <h1>openairinterface5g RAN- 本地目录结构分析</h1>
+  <h2><a href="https://github.com/OPENAIRINTERFACE/">RAN</a></h2>
+  <ul>
+    <li><b>ci-scripts: </b>Meta-scripts used by the OSA CI process. Contains also configuration files used day-to-day by CI.</li>
+    <li><b>cmake_targets: </b> Build utilities to compile (simulation, emulation and real-time platforms), and generated build files</li>
+    <li><b>common: </b> Some common OAI utilities, other tools can be found at openair2/UTILS</li>
+    <li><b>configuration</b></li>
+    <li><b>doc: </b> Contains an up-to-date feature set list</li>
+    <li><b>nfapi: </b> Contains the NFAPI code. A local Readme file provides more details.</li>
+    <li><b>openair1: </b>3GPP LTE Rel-10/12 PHY layer + PHY RF simulation. A local Readme file provides more details.
+      <ul>
+        <li><b>PHY</b> : contains all signal processing related to physical layer (used in real-time AND simulation)</li>
+        <ul>
+          <li><b>CODING</b> - turbo and convolutional (de-)coders, rate-matching, crc generation (implementation of 36-212)</li>
+          <ul><li><b>TESTBENCH</b> - This contains unitary testbenches for the different channel coders/decoders</li></ul>
+          <li><b>INIT</b> - variables defined in vars.h are initialzed here (memory allocation)</li>
+          <li><b>LTE_ESTIMATION</b> - estimation for LTE</li>
+          <li><b>LTE_REFSIG</b> - reference signals for LTE (sync and pilot sequences) reference signals from 36-211 </li>
+          <li><b>NR_REFSIG</b> - reference signals for NR (sync and pilot sequences) reference signals from 38-211</li>
+          <li><b>LTE_TRANSPORT</b> - these are the top level routines for different transport and physical channels (for example DL-SCH, PSS) implements a subset of 36-211,36-212</li>
+          <li><b>LTE_UE_TRANSPORT</b> - these are the top level routines for different transport and physical channels (for example DL-SCH, PSS) implements a subset of 36-211,36-212</li>
+          <li><b>NR_TRANSPORT</b> - these are the top level routines for different transport and physical channels (for example DL-SCH, PSS) implements a subset of 38-211,38-212</li>
+          <li><b>NR_UE_TRANSPORT</b> - these are the top level routines for different transport and physical channels (for example DL-SCH, PSS) implements a subset of 38-211,38-212</li>
+          <li><b>NBIoT_TRANSPORT</b> - these are the top level routines for different transport and physical channels for NB-IoT</li>
+          <li><b>MODULATION</b> - modulation and demodulation includes FFT/SC-FDMA front-end processing from 36-211</li>
+          <li><b>TOOLS</b> - tools like (I)FFT, vector operations, matrix multiplication, etc.</li>
+          <ul><li><b>FFTTEST: </b>unitary testbench for FFT routines</li></ul>
+          <li><b>defs.h	</b> - top level defs.h (includes spec_defs, impl_defs and all defs.h of subdirectories)</li>
+          <li><b>extern.h</b> - </li>
+          <li><b>impl_defs.h</b> - non-LTE openair implementation</li>
+          <li><b>impl_defs_lte.h</b> - lte implementation</li>
+          <li><b>impl_defs_top.h</b> - general implementaion defs</li>
+          <li><b>spec_defs.h</b> - </li>
+          <li><b>spec_defs_top.h</b> - </li>
+          <li><b>types.h</b> - </li>
+          <li><b>vars.h</b> - </li>
+        </ul>
+        <li><b>SCHED</b> : schedules the different LTE eNB functions</li>
+        <ul>
+          <li><b>defs.h</b> - </li>
+          <li><b>extern.h</b> - </li>
+          <li><b>phy_procedures_lte_eNb.c</b> - LTE PHY procedures for eNB (from 36-213) </li>
+          <li><b>phy_procedures_lte_common.c</b> - LTE PHY procedures common for UE and eNB (from 36-213)</li>
+          <li><b>prach_procedures.c</b> - LTE PRACH  procedures (from 36-213)</li>
+          <li><b>ru_procedures.c</b> - RU  procedures</li>
+          <li><b>fapi_l1.c</b> - L1 side of the FAPI interface</li>
+          <li><b>phy_mac_stub.c</b> - MAC stub that generates channels when used in phy-test-mode</li>
+          <li><b>rt_compat.c</b> - </li>
+          <li><b>vars.h</b> - </li>
+        </ul>
+        <li>SCHED_NBIOT</li>
+        <li>SCHED_NR</li>
+        <li>SCHED_NR_UE</li>
+        <li>SCHED_UE</li>
+        <ul>
+          <li><b>phy_procedures_lte_ue.c</b> - </li>
+          <li><b>pucch_pc.c</b> - </li>
+          <li><b>pusch_pc.c</b> - </li>
+          <li><b>srs_pc.c</b> - </li>
+        </ul>
+        <li>SIMULATION</li>
+        <ul>
+          <li><b>LTE_PHY</b> - LTE simulation testbenches for unitary simulation of transport/physical channels</li>
+          <ul>
+          <li><b>pbchsim.c </b> - PBCH simulation testbench</li>
+          <li><b>pdcchsim.c</b> - PCFICH/PHICH/PDCCH (DCI) simulation testbench</li>
+          <li><b>dlsim.c</b> - PDSCH simulation testbench</li>
+          <li><b>ulsim.c</b> - PUSCH simulation testbench</li>
+          <li><b>pucchsim.c </b> - PUCCH simulation testbench</li>
+          </ul>
+          <li><b>RF</b> - RF simulation tools</li>
+          <li><b>ETH_TRANSPORT</b> - </li>
+          <li><b>TOOLS</b> - </li>
+        </ul>
+      </ul>
+    </li>
+    <li><b>openair2: </b>3GPP LTE Rel-10 RLC/MAC/PDCP/RRC/X2AP + LTE Rel-14 M2AP implementation.</li>
+    <li><b>openair3: </b>3GPP LTE Rel10 for S1AP, NAS GTPV1-U for both ENB and UE.</li>
+    <li><b>targets: </b>Top-level wrappers for unitary simulation for PHY channels, system-level emulation (eNB-UE with and without S1), and realtime eNB and UE and RRH GW.</li>
+  </ul>
+  </div>
+  </body>
+</html>
