@@ -13,6 +13,54 @@
   <div>
   <h1>openairinterface5g RAN- 本地目录结构分析</h1>
   <h2><a href="https://github.com/OPENAIRINTERFACE/">RAN</a></h2>
+  </div>
+  <div>
+  <h3>系统需求</h3>
+  <p>需要Ubuntu系统，16.xx或18.04版本。</p>
+  <p>挂载网络硬盘： </p>
+  <i>sudo apt install cifs-utils</i></br>
+  <i>sudo mount -t cifs -o username=HGL //192.168.1.100/192.168.1.68 /smb</i>
+  </div>
+  <div>
+  <h3>安装配置过程</h3>
+  <h5>注意：
+	<ul>
+		<li>需要手动翻墙下载ssh文件,并放置到/opt/ssh文件夹</li>
+		<li>注释掉./cmake_targets/tools/build_helper文件中的
+			<ul>
+				<li>$SUDO rm -fr /opt/ssh</li>
+				<li>$SUDO git clone https://gist.github.com/2190472.git /opt/ssh</li>
+			</ul>
+		</li>
+		<li>需要翻墙下载ursp_uhd_driver，修改./cmake_targets/tools/build_helper中的$SUDO uhd_images_downloader为 $SUDO uhd_images_downloader -b http://localhost/</li>
+		<li>在usrp_udp_driver目录下执行 sudo python3 -m http.server 80可以模拟http://localhost/服务器地址。</li>
+		<li>编译生成文件存放在：/home/cta/OAI/enodeb/cmake_targets/lte_build_oai/build</li>
+	</ul><a href="./ssh.py">ssh.py</a></h5>
+  <ul>
+  <li><b>sudo apt install git</b></li>
+  <li><b>git clone https://gitlab.eurecom.fr/oai/openairinterface5g.git</b></li>
+  <li><b>cd openairinterface5g</b></li>
+  <li><b>source oaienv</b></li>
+  <li><b>cd cmake_targets</b></li>
+  <li><b>./build_oai -h</b> <i style="margin-left:20px">#for more options</i></li>
+  <h4 style="color:Blue">以下选项为安装硬件驱动所用，<span style="color:red">仅需要执行一次。</span>任选其一</h4>
+  <li><b>./build_oai -I</b><i style="margin-left:20px"># package installation + EXMIMO Driver Installation</i></li>
+  <li style="color:#00ff00"><b>./build_oai -I -w USRP</b><i style="margin-left:20px"># package installation + USRP Driver installation</i></li>
+  <li><b>./build_oai -I -w BLADERF</b><i style="margin-left:20px"># package installation + BladeRF Driver Installation</i></li>
+  <h4 style="color:Blue">以下选项为编译硬件适配的eNB，任选其一</h4>
+  <li><b>./build_oai --eNB -w EXMIMO -c -s</b><i style="margin-left:20px"># eNB + EXMIMO + test</i></li>
+  <li style="color:#50ff50"><b>./build_oai --eNB -c -w USRP</b><i style="margin-left:20px"># eNB + USRP</i></li>
+  <li><b>./build_oai --eNB -c -t ETHERNET</b><i style="margin-left:20px"># eNB + ETHERNET</i></li>
+  <h4 style="color:Blue">无S1接口，任选其一</h4>
+  <li style="color:#50ff50"><b>$OPENAIR_DIR/cmake_targets/build_oai --eNB --UE --noS1 -x -c -w USRP</b><i> #For USRP</i></li>
+  <li><b>$OPENAIR_DIR/cmake_targets/build_oai --eNB --UE --noS1 -x -c -w BLADERF</b> <i>#For BladeRF</i></li>
+  <li><b>$OPENAIR_DIR/cmake_targets/build_oai --eNB --UE --noS1 -x -c -w LMSSDR</b> <i>#For LMSSDR</i></li>
+  <li><b>$OPENAIR_DIR/cmake_targets/build_oai --eNB --UE --noS1 -x -c -w EXMIMO</b> <i>#For EXMIMO</i></li>
+
+  </ul>
+  </div>
+  <div>
+  <h3>路径文件描述</h3>
   <ul>
     <li><b>ci-scripts: </b>Meta-scripts used by the OSA CI process. Contains also configuration files used day-to-day by CI.</li>
     <li><b>cmake_targets: </b> Build utilities to compile (simulation, emulation and real-time platforms), and generated build files</li>
