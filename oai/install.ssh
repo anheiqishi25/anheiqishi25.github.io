@@ -1,4 +1,4 @@
 sudo apt update
 sudo apt install git cmake
 git clone https://github.com/OPENAIRINTERFACE/openair-mme.git
-git clone https://github.com/OPENAIRINTERAFCE/openair-hss.git
+git clone https://github.com/OPENAIRINTERFACE/openair-hss.git
