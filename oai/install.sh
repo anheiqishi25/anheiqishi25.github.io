@@ -13,9 +13,10 @@ git config --global https.proxy https://39.97.175.223:52578
 
 
 # Configurations of MME && SPGW-C SPGW-U
-wget https://anheiqishi25.github.io/oai/config.sh
-chmod a+x config.sh
-./config.sh
+# wget https://anheiqishi25.github.io/oai/config.sh
+# chmod a+x config.sh
+# ./config.sh
+
 # git clone https://github.com/OPENAIRINTERFACE/openair-mme.git
 # git clone https://github.com/OPENAIRINTERFACE/openair-hss.git
 # git clone https://github.com/OPENAIRINTERFACE/openair-spgwc.git
