@@ -1,5 +1,5 @@
 sudo apt update
-sudo apt install git cmake
+echo Y | sudo apt install git cmake
 # Download OAI sources
 git clone https://github.com/OPENAIRINTERFACE/openair-epc-fed.git
 cd openair-epc-fed
@@ -20,3 +20,5 @@ chmod a+x config.sh
 # git clone https://github.com/OPENAIRINTERFACE/openair-hss.git
 # git clone https://github.com/OPENAIRINTERFACE/openair-spgwc.git
 # git clone https://github.com/OPENAIRINTERFACE/openair-spgwu-tiny.git
+
+git config --global --unset https.proxy
