@@ -2,8 +2,10 @@
 path=`pwd`
 echo $path
 cd $path/component/oai-mme
+./scripts/build_mme i
 ./scripts/build_mme
 cd $path/component/oai-hss
+./scripts/build_hss_rel14 i
 ./scripts/build_hss_rel14
 
 
