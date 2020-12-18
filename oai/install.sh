@@ -1,5 +1,6 @@
 sudo apt update
 echo Y | sudo apt install git cmake
+sudo apt autoremove
 # Download OAI sources
 git clone https://github.com/OPENAIRINTERFACE/openair-epc-fed.git
 cd openair-epc-fed
