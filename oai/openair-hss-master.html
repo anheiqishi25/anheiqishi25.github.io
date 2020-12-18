@@ -21,8 +21,32 @@
   </div>
   
   <div>
+  <h3>配置</h3>
+  <p>oai-hss 使用Cassandra服务器作为数据服务中心，所以需要搭建<a href="https://www.apache.org/dyn/closer.lua/cassandra/3.0.23/apache-cassandra-3.0.23-bin.tar.gz">Cassandra</a>服务器环境。</p>
+  <p>Cassandra服务器需要环境Python2.7(For cqlsh)以及Java >= 1.8(OpenJDK and Oracle JVMS have been tested) 需要用8平台的，高于8平台的会报错。</p>
+  <p><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">下载jdk</a></p>
+  <p>执行bin\jlink.exe --module-path jmods --add-modules java.desktop --output jre指令，生成JRE目录</p>
+  <p>设置环境变量</br>export JAVA_HOME=/opt/jvm/jdk1.8.0_221</br>
+export JRE_HOME=${JAVA_HOME}/jre</br>
+export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH</br>
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH</br>重启系统</br>
+需要使用cqlsh命令创建键空间“vhss”</br>
+cd apache-cassandra-3.0.23/bin</br>
+./cqlsh</br>
+</p>
+  </div>
+  <div>
+  <h4>FAQ</h4>
+  <p>1、</p>
+  </div>
+  <div>
   <a href="https://gitlab.eurecom.fr/oai/openairinterface5g/-/wikis/HowToConnectCOTSUEwithOAIeNBNew"><h3>环境配置</h3></a>
   <p>修改主机名称</p>
+  </div>
+  <div>
+  <h3>运行</h3>
+  <p>./openair-epc-fed/component/oai-hss/build/hss_rel14/bin/hss</br>
+  错误提示parse() failed</p>
   </div>
   </body>
 </html>
