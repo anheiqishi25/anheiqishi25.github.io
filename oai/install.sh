@@ -1,11 +1,16 @@
 sudo apt update
 echo Y | sudo apt install git cmake
-sudo apt autoremove
+echo Y | sudo apt autoremove
 # Download OAI sources
 git clone https://github.com/OPENAIRINTERFACE/openair-epc-fed.git
 cd openair-epc-fed
-cwd=`pwd`
 ./scripts/syncComponents.sh --mme-branch master --hss-branch master --spgwc-branch master --spgwu-tiny-branch master
+./component/oai-hss/scripts/build_hss_rel14 -i
+./component/oai-hss/scripts/build_hss_rel14
+./component/oai-mme/scripts/build_mme -i
+./component/oai-mme/scripts/build_mme
+
+cwd=`pwd`
 
 # Build OAI sources
 git config --global https.proxy https://39.97.175.223:52578
