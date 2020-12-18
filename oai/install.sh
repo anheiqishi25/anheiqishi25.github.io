@@ -4,7 +4,7 @@ sudo apt install git cmake
 git clone https://github.com/OPENAIRINTERFACE/openair-epc-fed.git
 cd openair-epc-fed
 cwd=`pwd`
-./scripts/syncComponents.sh
+./scripts/syncComponents.sh --mme-branch master --hss-branch master --spgwc-branch master --spgwu-tiny-branch master
 
 # Build OAI sources
 git config --global https.proxy https://39.97.175.223:52578
