@@ -6,6 +6,16 @@ echo "# IP FORWARD"
 echo "################################################################################"
 sudo sysctl net.ipv4.conf.all.forwarding=1
 sudo iptables -P FORWARD ACCEPT
+
+echo "################################################################################"
+echo "# Start prod-cassandra/prod-oai-hss/prod-oai-mme/prod-oai-spgwc/prod-oai-spgwu-tiny"
+echo "################################################################################"
+docker start prod-cassandra
+docker start prod-oai-hss
+docker start prod-oai-mme
+docker start prod-oai-spgwc
+docker start prod-oai-spgwu-tiny
+
 # On your EPC Docker Host: recover the MME IP address:
 docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" prod-oai-mme
 # Return MME IP address: 192.168.61.3
@@ -39,7 +49,7 @@ docker exec -it prod-oai-mme /bin/bash -c "cd /openair-mme/scripts && chmod 777 
 echo "################################################################################"
 echo "# Config SPGW-C"
 echo "################################################################################"
-python3 component/oai-spgwc/ci-scripts/generateConfigFiles.py --kind=SPGW-C --s11c=eth0 --sxc=eth0 --apn=apn1.carrier.com --dns1_ip=YOUR_DNS_IP_ADDRESS --dns2_ip=A_SECONDARY_DNS_IP_ADDRESS --from_docker_file
+python3 component/oai-spgwc/ci-scripts/generateConfigFiles.py --kind=SPGW-C --s11c=eth0 --sxc=eth0 --apn=apn1.carrier.com --dns1_ip=114.114.114.114 --dns2_ip=8.8.8.8 --from_docker_file
 docker cp ./spgwc-cfg.sh prod-oai-spgwc:/openair-spgwc
 docker exec -it prod-oai-spgwc /bin/bash -c "cd /openair-spgwc && chmod 777 spgwc-cfg.sh && ./spgwc-cfg.sh"
 ifconfig lo:s5c 127.0.0.15 up
