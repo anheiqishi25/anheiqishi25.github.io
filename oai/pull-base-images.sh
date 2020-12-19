@@ -9,7 +9,8 @@ docker pull ubuntu:bionic
 docker pull cassandra:2.1
 docker logout
 sudo sysctl net.ipv4.conf.all.forwarding=1
-# sudo iptables -P FORWARD ACCEPT
+# Need to config follow configuration
+sudo iptables -P FORWARD ACCEPT
 cd ~
 mkdir oai
 cd oai
