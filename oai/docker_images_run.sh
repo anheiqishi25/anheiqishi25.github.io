@@ -1,6 +1,11 @@
 #!/bin/bash
 # https://github.com/OPENAIRINTERFACE/openair-epc-fed/blob/master/docs/CONFIGURE_CONTAINERS.md
 
+echo "################################################################################"
+echo "# IP FORWARD"
+echo "################################################################################"
+sudo sysctl net.ipv4.conf.all.forwarding=1
+sudo iptables -P FORWARD ACCEPT
 # On your EPC Docker Host: recover the MME IP address:
 docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" prod-oai-mme
 # Return MME IP address: 192.168.61.3
