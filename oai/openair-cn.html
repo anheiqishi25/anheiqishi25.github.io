@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>3GPP分析</title>
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/demo/demo.css">
+    <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.easyui.min.js"></script>
+  </head>
+  <body>
+  <h1>openair-cn</h1>
+  <p>Openair-cn项目按照功能总共可划分为4个部分：</br>
+  openair-hss</br>
+  openair-mme</br>
+  openair-spgw-c</br>
+  openair-spgw-u-tiny</br>
+  </p>
+  <h5>第一步：<a href="https://www.runoob.com/docker/ubuntu-docker-install.html">安装Docker</a></h5>
+  <p>这四个部分均运行在docker容器当中，所以我们需要再EPC HOST主机中<a href="./docker-install.sh">安装docker</a>，安装之前需要<a href="https://hub.docker.com/">Docker主页</a>注册docker账户。</br>
+  <pre>sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+</pre>
+  </p>
+  <h5>第二步：<a href="https://github.com/OPENAIRINTERFACE/openair-epc-fed/blob/master/docs/DEPLOY_PRE_REQUESITES.md">Docker部署和构建镜像</a></h5><p>
+  Docker安装完毕之后，需要下载合适的openair项目源程序。OAI官方提供了openair-epc-fed项目来实现自动化下载及安装功能。我这里也用<a href="./pull-base-images.sh">pull-base-images.sh</a>脚本来实现了。其中还包含docker容器镜像的下载、网络配置和转发、源代码编译等</br>
+  <pre>sudo groupadd docker
+sudo gpasswd -a $xxx docker
+sudo gpasswd -a $USER docker
+newgrp docker
+docker login
+docker pull ubuntu:bionic
+docker pull cassandra:2.1
+docker logout
+sudo sysctl net.ipv4.conf.all.forwarding=1
+# 需要配置如下选项，如果不配置可能eNB/gNB无法ping通MME等单元
+sudo iptables -P FORWARD ACCEPT
+cd ~ &&mkdir oai&&cd oai
+git clone https://github.com/OPENAIRINTERFACE/openair-epc-fed.git
+cd openair-epc-fed
+git checkout master
+git pull origin master
+./scripts/syncComponents.sh
+# Build HSS Image
+docker build --target oai-hss --tag oai-hss:production --file component/oai-hss/docker/Dockerfile.ubuntu18.04 component/oai-hss
+docker image prune --force
+docker image ls
+
+# Build MME Image
+docker build --target oai-mme --tag oai-mme:production --file component/oai-mme/docker/Dockerfile.ubuntu18.04 component/oai-mme
+docker image prune --force
+docker image ls
+
+# Build SPGW-C Image
+docker build --target oai-spgwc --tag oai-spgwc:production --file component/oai-spgwc/docker/Dockerfile.ubuntu18.04 component/oai-spgwc
+docker image prune --force
+docker image ls
+
+# Build SPGW-U Image
+docker build --target oai-spgwu-tiny --tag oai-spgwu-tiny:production --file component/oai-spgwu-tiny/docker/Dockerfile.ubuntu18.04 component/oai-spgwu-tiny
+docker image prune --force
+docker image ls
+  </pre>
+  </p><h5>第三步：<a href="https://github.com/OPENAIRINTERFACE/openair-epc-fed/blob/master/docs/CONFIGURE_CONTAINERS.md">配置容器</a></h5>
+  <p> Step 1：创建Docker网络桥接：从当前部署的主机接入Docker容器容易，但从其他服务器接入Docker容器不易。所以我们要在EPC docker主机上创建docker网络。</br>
+  <pre>$ docker network create --attachable --subnet 192.168.61.0/26 --ip-range 192.168.61.0/26 prod-oai-public-net</pre></p>
+  <p> Step 2：为了能够在eNB/gNB上能够访问EPC，需要在NB上增加路由</br>
+  <pre>$ sudo ip route add 192.168.61.0/24 via 192.168.18.197 dev bond0</pre></br>
+  bond0 为网卡名称</br> 192.168.18.197 是EPC主机地址</p>
+  <p> Step 3：部署容器</br>
+  <pre>$ docker run --name prod-cassandra -d -e CASSANDRA_CLUSTER_NAME="OAI HSS Cluster" \
+             -e CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch cassandra:2.1
+$ docker run --privileged --name prod-oai-hss -d --entrypoint /bin/bash oai-hss:production -c "sleep infinity"
+$ docker network connect prod-oai-public-net prod-oai-hss
+$ docker run --privileged --name prod-oai-mme --network prod-oai-public-net \
+             -d --entrypoint /bin/bash oai-mme:production -c "sleep infinity"
+$ docker run --privileged --name prod-oai-spgwc --network prod-oai-public-net \
+             -d --entrypoint /bin/bash oai-spgwc:production -c "sleep infinity"
+$ docker run --privileged --name prod-oai-spgwu-tiny --network prod-oai-public-net \
+             -d --entrypoint /bin/bash oai-spgwu-tiny:production -c "sleep infinity"</pre></p>
+  <p> Step 4：检查网络配置</br>
+  <pre>$ docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" prod-oai-mme
+  192.168.61.3</pre>返回 oai-mme容器的IP地址。类似的可以查询spgw-c、spgw-u-tiny</br>在eNB/gNB上ping上述地址，没问题的话可以ping通</p>
+  <p> Step 5：配置容器</br>
+  <pre>$ docker cp component/oai-hss/src/hss_rel14/db/oai_db.cql prod-cassandra:/home
+$ docker exec -it prod-cassandra /bin/bash -c "nodetool status"
+$ Cassandra_IP=`docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" prod-cassandra`
+$ docker exec -it prod-cassandra /bin/bash -c "cqlsh --file /home/oai_db.cql ${Cassandra_IP}"</pre>返回 oai-mme容器的IP地址。类似的可以查询spgw-c、spgw-u-tiny</br>在eNB/gNB上ping上述地址，没问题的话可以ping通</p>
+  </body>
+</html>
