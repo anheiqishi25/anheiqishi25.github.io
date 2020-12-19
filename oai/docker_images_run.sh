@@ -16,6 +16,7 @@ docker start prod-oai-mme
 docker start prod-oai-spgwc
 docker start prod-oai-spgwu-tiny
 
+sleep 30
 # On your EPC Docker Host: recover the MME IP address:
 docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" prod-oai-mme
 # Return MME IP address: 192.168.61.3
@@ -30,7 +31,7 @@ Cassandra_IP=`docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPA
 docker exec -it prod-cassandra /bin/bash -c "cqlsh --file /home/oai_db.cql ${Cassandra_IP}"
 
 echo "################################################################################"
-# Config HSS
+echo "# Config HSS"
 echo "################################################################################"
 HSS_IP=`docker exec -it prod-oai-hss /bin/bash -c "ifconfig eth1 | grep inet" | sed -f ./ci-scripts/convertIpAddrFromIfconfig.sed`
 python3 component/oai-hss/ci-scripts/generateConfigFiles.py --kind=HSS --cassandra=${Cassandra_IP} --hss_s6a=${HSS_IP} --apn1=apn1.carrier.com --apn2=apn2.carrier.com --users=200 --imsi=320230100000001 --ltek=0c0a34601d4f07677303652c0462535b --op=63bfa50ee6523365ff14c1f45f88737d --nb_mmes=1 --from_docker_file
@@ -52,8 +53,6 @@ echo "##########################################################################
 python3 component/oai-spgwc/ci-scripts/generateConfigFiles.py --kind=SPGW-C --s11c=eth0 --sxc=eth0 --apn=apn1.carrier.com --dns1_ip=114.114.114.114 --dns2_ip=8.8.8.8 --from_docker_file
 docker cp ./spgwc-cfg.sh prod-oai-spgwc:/openair-spgwc
 docker exec -it prod-oai-spgwc /bin/bash -c "cd /openair-spgwc && chmod 777 spgwc-cfg.sh && ./spgwc-cfg.sh"
-ifconfig lo:s5c 127.0.0.15 up
-ifconfig lo:p5c 127.0.0.16 up
 
 echo "################################################################################"
 echo "# Config SPGW-U"
