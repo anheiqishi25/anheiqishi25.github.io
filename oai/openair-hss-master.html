@@ -10,6 +10,8 @@
     <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.easyui.min.js"></script>
   </head>
   <body>
+  
+  <!--
   <h1>openair-mme</h1>
   <div>
   <h3>编译</h3>
@@ -49,6 +51,113 @@ cd apache-cassandra-3.0.23/bin</br>
   <h3>运行</h3>
   <p>./openair-epc-fed/component/oai-hss/build/hss_rel14/bin/hss</br>
   错误提示parse() failed</p>
+  </div>-->
+  <div style="width:1280px; margin-left:120px; border:1px solid #000; height:auto;">
+  <h2>HSS 用户账户通知</h2>
+  <h3>管理软件</h3>
+  <a href="https://www.razorsql.com/download.html">razorsql</a>
+  <h3>hss cassandra数据结构</h3>
+  <ul>
+    <li>vhss</li>
+    <ul>
+      <li>users_imsi</li>
+      <ul>
+        <li>imsi</li>
+        <li>access_restriction</li>
+        <li>idmmeidentity</li>
+        <li>imei</li>
+        <li>imei_sv</li>
+        <li>key</li>
+        <li>lipa_permissions</li>
+        <li>mme_cap</li>
+        <li>mmehost</li>
+        <li>mmeidentity_idmmeidentity</li>
+        <li>mmerealm</li>
+        <li>ms_ps_status</li>
+        <li>msisdn</li>
+        <li>niddvalidity</li>
+        <li>nir_dest_host</li>
+        <li>nir_dest_realm</li>
+        <li>opc</li>
+        <li>pgw_id</li>
+        <li>rand</li>
+        <li>rfsp_index</li>
+        <li>sqn</li>
+        <li>subscription_data</li>
+        <li>ue_reachability</li>
+        <li>urrp_mme</li>
+        <li>user_identifier</li>
+        <li>visited_plmnid</li>
+      </ul>
+      <li>msisdn_imsi</li>
+      <ul>
+        <li>msisdn</li
+        <li>imsi</li>
+      </ul>
+      <li>global_ids</li>
+      <ul>
+        <li>table_name</li>
+        <li>id</li>
+      </ul>
+      <li>mmeidentity_host</li>
+      <ul>
+        <li>mmehost</li>
+        <li>idmmeidentity</li>
+        <li>mmerealm</li>
+        <li>ue_reachability</li>
+        <li>mmeisdn</li>
+      </ul>
+      <li>mmeidentity</li>
+      <ul>
+        <li>idmmeidentity</li>
+        <li>mmehost</li>
+        <li>mmerealm</li>
+        <li>ue_reachability</li>
+        <li>mmeisdn</li>
+      </ul>
+      <li>events</li>
+      <ul>
+        <li>scef_id</li>
+        <li>scef_ref_id</li>
+        <li>extid</li>
+        <li>monitoring_event_configuration</li>
+        <li>monitoring_type</li>
+        <li>msisdn</li>
+        <li>user_identifier</li>
+        <li>primary key (scef_id, scef_ref_id)</li>
+      </ul>
+      <li>events_msisdn</li>
+      <ul>
+        <li>msisdn</li>
+        <li>scef_id</li>
+        <li>scef_ref_id</li>
+        <li>primary key (msisdn, scef_id, scef_ref_id)</li>
+      </ul>
+      <li>events_extid</li>
+      <ul>
+        <li>extid</li>
+        <li>scef_id</li>
+        <li>scef_ref_id</li>
+        <li>primary key (msisdn, scef_id, scef_ref_id)</li>
+      </ul>
+      <li>extid</li>
+      <ul>
+        <li>extid</li>
+      </ul>
+      <li>extid_imsi</li>
+      <ul>
+        <li>extid</li>
+        <li>imsi</li>
+        <li>primary key (extid, imsi)</li>
+      </ul>
+      <li>extid_imsi_xref</li>
+      <ul>
+        <li>imsi</li>
+        <li>extid</li>
+        <li>primary key (imsi, extid)</li>
+      </ul>
+    </ul>
+  <ul>
   </div>
   </body>
 </html>
