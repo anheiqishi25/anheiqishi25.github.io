@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.easyui.min.js"></script>
   </head>
-  <body>
+  <body style="width:1280px; margin-left:120px;">
   <h1>openair-cn</h1>
   <p>Openair-cn项目按照功能总共可划分为4个部分：</br>
   openair-hss</br>
@@ -92,5 +92,17 @@ $ docker run --privileged --name prod-oai-spgwu-tiny --network prod-oai-public-n
 $ docker exec -it prod-cassandra /bin/bash -c "nodetool status"
 $ Cassandra_IP=`docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" prod-cassandra`
 $ docker exec -it prod-cassandra /bin/bash -c "cqlsh --file /home/oai_db.cql ${Cassandra_IP}"</pre>返回 oai-mme容器的IP地址。类似的可以查询spgw-c、spgw-u-tiny</br>在eNB/gNB上ping上述地址，没问题的话可以ping通</p>
+
+<div>
+<h3>配置HSS用户</h3>
+<p>用户管理部分由HSS项目管理，而具体保存的数据在cassandra服务数据库，所以需要访问Cassandra数据库。</br>
+Cassandra监听的端口号默认可能为：
+<table border="1">
+<tr><th>端口号</th><th>描述</th></tr>
+<tr><td>7000</td><td>Cassandra内部节点间的通信端口</td></tr>
+<tr><td>9160</td><td> Thrift客户端访问端口</td></tr>
+<tr><td>7199</td><td>  JMX的监控端口（早期版本是8080）</td></tr>
+</table></p>
+</div>
   </body>
 </html>
