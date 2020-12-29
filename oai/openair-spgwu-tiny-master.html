@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>3GPP分析</title>
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.7.0/demo/demo.css">
+    <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-easyui-1.7.0/jquery.easyui.min.js"></script>
+  </head>
+  <body>
+  <h1>openair-spgwu-tiny</h1>
+  <div>
+  <h3>编译</h3>
+  <ul>
+    <li>git clone https://github.com/OPENAIRINTERFACE/openair-spgwu-tiny.git</li>
+    <li>git config --global https.proxy https://xxx.xxx.xxx.xxx:xxxxx</li>
+    <li>git config --global --unset https.proxy</li>
+  </ul>
+  <pre>
+    # 运行时需要安装所有package，否则可能出现编译时候出现个别文件未找到的情况。
+    # Installing and Building SPGW-U-TINY
+    WORKDIR /openair-spgwu-tiny/build/scripts
+    ./build_spgwu --install-deps --force
+    ./build_spgwu --clean --build-type Release --jobs --Verbose
+    </pre>
+  </div>
+  
+  <div>
+  <a href="https://gitlab.eurecom.fr/oai/openairinterface5g/-/wikis/HowToConnectCOTSUEwithOAIeNBNew"><h3>环境配置</h3></a>
+  <p>修改主机名称</p>
+  </div>
+  </body>
+</html>
