@@ -53,6 +53,15 @@ cd apache-cassandra-3.0.23/bin</br>
   错误提示parse() failed</p>
   </div>-->
   <div style="width:1280px; margin-left:120px; border:1px solid #000; height:auto;">
+  <h3>Build hss</h3>
+  <pre>
+    # Installing and Building HSS
+    WORKDIR /openair-hss/scripts
+    ./build_hss_rel14 --check-installed-software --force
+    ./build_hss_rel14 --clean --build-type Release
+  </pre>
+  </div>
+  <div style="width:1280px; margin-left:120px; border:1px solid #000; height:auto;">
   <h2>HSS 用户账户通知</h2>
   <h3>管理软件</h3>
   <a href="https://www.razorsql.com/download.html">razorsql</a>
