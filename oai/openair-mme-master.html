@@ -17,11 +17,14 @@
     <li>git clone https://github.com/OPENAIRINTERFACE/openair-mme.git</li>
     <li>git config --global https.proxy https://xxx.xxx.xxx.xxx:xxxxx</li>
     <li>git config --global --unset https.proxy</li>
-  #运行时需要安装所有package，否则可能出现编译时候出现个别文件未找到的情况。
-    <li>./script/build-mme i </li>
-    <li>./script/build-mme </li>
-    
   </ul>
+  <pre>
+    #运行时需要安装所有package，否则可能出现编译时候出现个别文件未找到的情况。
+    # Installing and Building MME
+    WORKDIR /openair-mme/scripts
+    ./build_mme --check-installed-software --force
+    ./build_mme --clean --build-type Release --Verbose
+  </pre>
   </div>
   
   <div>
