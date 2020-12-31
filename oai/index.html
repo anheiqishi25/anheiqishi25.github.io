@@ -18,6 +18,34 @@
     <li><a href="./openairinterface5g-master.html">openairinterface5g</a></li>
   </ul>
   <h2>EPC Network</h2>
+  <pre>
+    cwd=`pwd`
+    # Clone sources
+    git clone https://github.com/OPENAIRINTERFACE/openair-hss.git
+    git clone https://github.com/OPENAIRINTERFACE/openair-mme.git
+    git clone https://github.com/OPENAIRINTERFACE/openair-spgwc.git
+    git clone https://github.com/OPENAIRINTERFACE/openair-spgwu-tiny.git
+  
+    # Installing and Building HSS
+    cd $cwd/openair-hss
+    ./scripts/build_hss_rel14 --check-installed-software --force
+    ./scripts/build_hss_rel14 --clean --build-type Release
+    
+    # Installing and Building MME
+    cd $cwd/openair-mme
+    ./scripts/build_mme --check-installed-software --force
+    ./scripts/build_mme --clean --build-type Release --Verbose
+    
+    # Installing and Building SPGW-C
+    cd $cwd/openair-spgwc
+    ./build/scripts/build_spgwc --install-deps --force
+    ./build/scripts/build_spgwc --clean --build-type Release --jobs --Verbose
+
+    # Installing and Building SPGW-U-TINY
+    cd $cwd/openair-spgwu-tiny
+    ./build/scripts/build_spgwu --install-deps --force
+    ./build/scripts/build_spgwu --clean --build-type Release --jobs --Verbose
+    </pre>
   <ul>
     <li><a href="./openair-cn.html">openair-cn</a></li>
     <li><a href="./openair-mme-master.html">openair-mme</a></li>
@@ -25,6 +53,7 @@
     <li><a href="./openair-spgwu-tiny-master.html">openair-spgwu-tiny</a></li>
     <li><a href="./openair-spgwc-master.html">openair-spgwc</a></li>
   </ul>
+  
   </div>
   
   
