@@ -7,3 +7,37 @@
   + 下右：展示每个无线技术的信道（N1/N2/N3……N78等）
 + json格式导入数据。
 + 按照整体与个体区分，比如NR所有频段可以重叠为一行与其他技术同框展示，单独的NR可以拆分每个频段展示。
+
+'{ "sites" : [' +
+	'{ "name":"Runoob" , "url":"www.runoob.com" },' +
+	'{ "name":"Google" , "url":"www.google.com" },' +
+	'{ "name":"Taobao" , "url":"www.taobao.com" } 
+]}';
+
+{
+rat:[
+{name:'NR',
+ value[
+ {name:Band1,
+ duplex:'FDD',
+ dlMin:345,
+ dlMax:456,
+ upMin:789,
+ upMax:1011,},
+ {name:Band2,
+ duplex:'FDD',
+ dlMin:345,
+ dlMax:456,
+ upMin:789,
+ upMax:1011,},
+ {name:Band3,
+ duplex:'FDD',
+ dlMin:345,
+ dlMax:456,
+ upMin:789,
+ upMax:1011,},
+ 
+ ]}
+]
+
+}
