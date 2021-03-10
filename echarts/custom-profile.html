@@ -27,7 +27,7 @@
         <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=<Your Key Here>"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
         -->
-
+        <button onclick="abc()">点击这里</button>
         <script type="text/javascript">
 var dom = document.getElementById("container");
 var myChart = echarts.init(dom);
@@ -40,7 +40,9 @@ var option;
 var data = [];
 var dataCount = 10;
 var startTime = +new Date();
+//分类，大类，可以作为不同无线接入技术的区分，
 var categories = ['NR', 'LTE', 'U-TRA', 'GSM', 'CDMA', ];
+//类型，分类的子类，可以用于区分不同频段
 var types = [
     {name: 'Band-1', color: '#7b9ce1'},
     {name: 'Band-2', color: '#bd6d6c'},
@@ -49,6 +51,8 @@ var types = [
     {name: 'Band-5', color: '#dc77dc'},
     {name: 'Band-6', color: '#72b362'}
 ];
+
+
 
 // Generate mock data 生成模拟数据
 // category 
@@ -87,7 +91,39 @@ categories.forEach(function (category, index) {
     }
     //document.write(' </br> ')
 });
+function abc(){
+    var baseTime = startTime;
 
+    var strJson = '{ "rat" : [{ "name":"NR" , "url":"www.runoob.com" },{ "name":"Google" , "url":"www.google.com" },{ "name":"Taobao" , "url":"www.taobao.com" } ]}';
+    var obj = JSON.parse(strJson);
+    document.write(obj.rat[0].name + obj.rat.length)
+
+    cnt = obj.rat.length;
+    for (var i = 0; i < cnt; i++) {
+        // typeItem 随机生成types中的数据类型；types为数组类型，选中其中之一，即为：{name: 'JS Heap', color: '#7b9ce1'}
+        var typeItem = types[Math.round(Math.random() * (types.length - 1))];
+        // duration 每个Item的保持时间长度，随机生成。
+        var duration = Math.round(Math.random() * 10000);
+        // data 为数组
+        data.push({
+            // name 数据类型名称
+            name: typeItem.name,
+            value: [
+                index,
+                baseTime,
+                baseTime += duration,
+                duration
+            ],
+            itemStyle: {
+                normal: {
+                    color: typeItem.color
+                }
+            }
+        });
+
+        baseTime += Math.round(Math.random() * 2000);
+    }
+}
 //document.write(data[0].name+','+data[0].value[1]+'</br>');
 function renderItem(params, api) {
     var categoryIndex = api.value(0);
@@ -172,7 +208,6 @@ option = {
 //document.write(typeof(option))
 if (option && typeof option === 'object') {
     myChart.setOption(option);
-    
 }
 
         </script>
