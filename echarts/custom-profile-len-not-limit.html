@@ -1,0 +1,181 @@
+<!--
+    THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/zh/editor.html?c=custom-profile
+-->
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body style="height: 100%; margin: 0">
+        <div id="container" style="height: 100%"></div>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+        <!-- Uncomment this line if you want to dataTool extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/dataTool.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to use gl extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to echarts-stat extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to use map
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/map/js/china.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/map/js/world.js"></script>
+        -->
+        <!-- Uncomment these two lines if you want to use bmap extension
+        <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=<Your Key Here>"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
+        -->
+
+        <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+
+var option;
+
+
+
+var data = [];
+var dataCount = 10;
+var startTime = +new Date();
+var categories = ['NR', 'LTE', 'U-TRA', 'GSM', 'CDMA', ];
+var types = [
+    {name: 'Band-1', color: '#7b9ce1'},
+    {name: 'Band-2', color: '#bd6d6c'},
+    {name: 'Band-3', color: '#75d874'},
+    {name: 'Band-4', color: '#e0bc78'},
+    {name: 'Band-5', color: '#dc77dc'},
+    {name: 'Band-6', color: '#72b362'}
+];
+
+// Generate mock data 生成模拟数据
+// category 
+// index      
+categories.forEach(function (category, index) {
+    var baseTime = startTime;
+        //document.write(category+','+index+','+baseTime+',')
+    //for (var i = 0; i < dataCount; i++) {
+    cnt = Math.round(Math.random() * 10);
+    for (var i = 0; i < cnt; i++) {
+        // typeItem 随机生成types中的数据类型；types为数组类型，选中其中之一，即为：{name: 'JS Heap', color: '#7b9ce1'}
+        var typeItem = types[Math.round(Math.random() * (types.length - 1))];
+        // duration 每个Item的保持时间长度，随机生成。
+        var duration = Math.round(Math.random() * 10000);
+        // data 为数组
+        data.push({
+            // name 数据类型名称
+            name: typeItem.name,
+            value: [
+                index,
+                baseTime,
+                baseTime += duration,
+                duration
+            ],
+            itemStyle: {
+                normal: {
+                    color: typeItem.color
+                }
+            }
+        });
+        
+        //document.write(index+','+duration+','+' - ')
+        //document.write('###'+data[data.length-1].name+'###')
+        baseTime += Math.round(Math.random() * 2000);
+        //baseTime -= 200;
+    }
+    //document.write(' </br> ')
+});
+
+//document.write(data[0].name+','+data[0].value[1]+'</br>');
+function renderItem(params, api) {
+    var categoryIndex = api.value(0);
+    var start = api.coord([api.value(1), categoryIndex]);
+    var end = api.coord([api.value(2), categoryIndex]);
+    var height = api.size([0, 1])[1] * 0.6;
+
+    var rectShape = echarts.graphic.clipRectByRect({
+        x: start[0],
+        y: start[1] - height / 2,
+        width: end[0] - start[0],
+        height: height
+    }, {
+        x: params.coordSys.x,
+        y: params.coordSys.y,
+        width: params.coordSys.width,
+        height: params.coordSys.height
+    });
+
+    return rectShape && {
+        type: 'rect',
+        transition: ['shape'],
+        shape: rectShape,
+        style: api.style()
+    };
+}
+
+gridHeight=600
+option = {
+    tooltip: {
+        formatter: function (params) {
+            return params.marker + params.name + ': </br>Start:'+params.value[1]+ ' (ms) </br>Stop:'+params.value[2]+ ' (ms)</br>Duration:'+params.value[3] + ' (ms)';
+        }
+    },
+    title: {
+        // text 显示在正中上方的图表标题。
+        text: 'Frequency',
+        left: 'center'
+    },
+    dataZoom: [{
+        type: 'slider',
+        filterMode: 'weakFilter',
+        showDataShadow: true,
+        top: gridHeight+100,
+        //labelFormatter 滚动条显示文字。
+        labelFormatter: 'Frequency'
+    }, {
+        type: 'inside',
+        filterMode: 'weakFilter'
+    }],
+    grid: {
+        height: gridHeight
+    },
+    xAxis: {
+        min: startTime,
+        scale: false,
+        axisLabel: {
+            formatter: function (val) {
+                // 图形缩放时会出错
+                //document.write('val: '+val+'</br>');
+                return Math.max(0, val - startTime) + ' ms';
+                //return 6000000 + ' ms';
+            }
+        }
+    },
+    yAxis: {
+        data: categories
+    },
+    series: [{
+        type: 'custom',
+        renderItem: renderItem,
+        itemStyle: {
+            opacity: 0.8
+        },
+        encode: {
+            x: [1, 2],
+            y: 0
+        },
+        data: data
+    }]
+};
+//document.write(typeof(option))
+if (option && typeof option === 'object') {
+    myChart.setOption(option);
+    
+}
+
+        </script>
+    </body>
+</html>
+    
