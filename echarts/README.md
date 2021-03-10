@@ -1,5 +1,5 @@
-# anheiqishi25.github.io
-this is my website
+# anheiqishi25.github.io、eCharts
+
 + 页面框架可分为三大部分：上、下左、下右
   + 上：主要显示图标信息
   + 下左：按照无线技术分类，按照多选按钮形式可选，包括全选，全不选按钮：（NR/LTE/WCDMA/TDSCDMA/GSM/CDMA/LoRa/Zigbee/WiFi/Bluetooth等），
