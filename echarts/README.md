@@ -32,3 +32,11 @@
 
 
 '{"rat":[{"name":"NR", "channels":[{"name":"Band1","duplex":"FDD","dlmin":456,"dlmax":456,"upmin":456,"upmax":"456"},{"name":"Band2","duplex":"FDD","dlmin":456,"dlmax":456,"upmin":456,"upmax":"456"}]}]}'
+
+
+'{"rat":['+
+  '{"name":"NR", "channels":['+
+    '{"name":"Band1","duplex":"FDD","dlmin":1920,"dlmax":1980,"upmin":2110,"upmax":"2170"},'+
+    '{"name":"Band2","duplex":"FDD","dlmin":1850,"dlmax":1910,"upmin":1930,"upmax":"1990"},'+
+    '{"name":"Band3","duplex":"FDD","dlmin":555,"dlmax":666,"upmin":777,"upmax":"888"}'+
+']}]}'
