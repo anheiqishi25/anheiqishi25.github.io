@@ -27,7 +27,7 @@
         <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=<Your Key Here>"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
         -->
-        <button onclick="abc()">点击这里</button>
+        <!--<button onclick="abc()">点击这里</button>-->
         <script type="text/javascript">
 var dom = document.getElementById("container");
 var myChart = echarts.init(dom);
@@ -39,89 +39,245 @@ var option;
 
 var data = [];
 var dataCount = 10;
-var startTime = +new Date();
+var startTime = 0;
 //分类，大类，可以作为不同无线接入技术的区分，
-var categories = ['NR', 'LTE', 'U-TRA', 'GSM', 'CDMA', ];
+//var categories = ['NR', 'LTE', 'U-TRA', 'GSM', 'CDMA', ];
+//var strJson = '{ "rat" : [{ "name":"NR" , "channel":"www.runoob.com" },{ "name":"Google" , "url":"www.google.com" },{ "name":"Taobao" , "url":"www.taobao.com" } ]}';
+//var strJson = '{"rat":[{"name":"NR", "channels":[{"name":"Band1","duplex":"FDD","dlmin":111,"dlmax":222,"upmin":333,"upmax":"444"},{"name":"Band2","duplex":"FDD","dlmin":555,"dlmax":666,"upmin":777,"upmax":"888"}]}]}'
+var strJson = '{"rat":['+
+  '{"name":"NR", "channels":['+
+    '{"name":"Band1", "duplex":"FDD","upmin":1920,"upmax":1980,"dlmin":2110,"dlmax":2170},'+
+    '{"name":"Band2", "duplex":"FDD","upmin":1850,"upmax":1910,"dlmin":1930,"dlmax":1990},'+
+    '{"name":"Band3", "duplex":"FDD","upmin":1710,"upmax":1785,"dlmin":1805,"dlmax":1880},'+
+    '{"name":"Band5", "duplex":"FDD","upmin":824, "upmax":849, "dlmin":869, "dlmax":894 },'+
+    '{"name":"Band7", "duplex":"FDD","upmin":2500,"upmax":2570,"dlmin":2620,"dlmax":2690},'+
+    '{"name":"Band8", "duplex":"FDD","upmin":880, "upmax":915, "dlmin":925, "dlmax":960 },'+
+    '{"name":"Band12","duplex":"FDD","upmin":699, "upmax":716, "dlmin":729, "dlmax":746 },'+
+    '{"name":"Band20","duplex":"FDD","upmin":832, "upmax":862, "dlmin":791, "dlmax":821 },'+
+    '{"name":"Band25","duplex":"FDD","upmin":1850,"upmax":1915,"dlmin":1930,"dlmax":1995},'+
+    '{"name":"Band26","duplex":"FDD","upmin":814, "upmax":849, "dlmin":859, "dlmax":894 },'+
+    '{"name":"Band28","duplex":"FDD","upmin":703, "upmax":748, "dlmin":758, "dlmax":803 },'+
+    '{"name":"Band29","duplex":"SDL","dlmin":1930,"dlmax":1995 },'+
+    '{"name":"Band30","duplex":"FDD","upmin":2305,"upmax":2315,"dlmin":2350,"dlmax":2360},'+
+    '{"name":"Band34","duplex":"TDD","upmin":2010,"upmax":2025,"dlmin":2010,"dlmax":2025},'+
+    '{"name":"Band38","duplex":"TDD","upmin":2570,"upmax":2620,"dlmin":2570,"dlmax":2620},'+
+    '{"name":"Band39","duplex":"TDD","upmin":1880,"upmax":1920,"dlmin":1880,"dlmax":1920},'+
+    '{"name":"Band40","duplex":"TDD","upmin":2300,"upmax":2400,"dlmin":2300,"dlmax":2400},'+
+    '{"name":"Band41","duplex":"TDD","upmin":2496,"upmax":2690,"dlmin":2496,"dlmax":2690},'+
+    '{"name":"Band47","duplex":"TDD","upmin":5855,"upmax":5925,"dlmin":5855,"dlmax":5925},'+
+    '{"name":"Band48","duplex":"TDD","upmin":3550,"upmax":3700,"dlmin":3550,"dlmax":3700},'+
+    '{"name":"Band50","duplex":"TDD","upmin":1432,"upmax":1517,"dlmin":1432,"dlmax":1517},'+
+    '{"name":"Band65","duplex":"FDD","upmin":1920,"upmax":2010,"dlmin":2110,"dlmax":2200},'+
+    '{"name":"Band66","duplex":"FDD","upmin":1710,"upmax":1780,"dlmin":2110,"dlmax":2200},'+
+    '{"name":"Band70","duplex":"FDD","upmin":1695,"upmax":1710,"dlmin":1995,"dlmax":2020},'+
+    '{"name":"Band71","duplex":"FDD","upmin":663, "upmax":698, "dlmin":617, "dlmax":652 },'+
+    '{"name":"Band74","duplex":"FDD","upmin":1427,"upmax":1470,"dlmin":1475,"dlmax":1518},'+
+    '{"name":"Band75","duplex":"SDL","dlmin":1432,"dlmax":1517},'+
+    '{"name":"Band76","duplex":"SDL","dlmin":1427,"dlmax":1432},'+
+    '{"name":"Band77","duplex":"TDD","upmin":3300,"upmax":4200,"dlmin":3300,"dlmax":4200},'+
+    '{"name":"Band78","duplex":"FDD","upmin":3300,"upmax":3800,"dlmin":3300,"dlmax":3800},'+
+    '{"name":"Band79","duplex":"FDD","upmin":4400,"upmax":5000,"dlmin":4400,"dlmax":5000},'+
+    '{"name":"Band80","duplex":"SUL","upmin":1710,"upmax":1785},'+
+    '{"name":"Band81","duplex":"SUL","upmin":880, "upmax":915 },'+
+    '{"name":"Band82","duplex":"SUL","upmin":832, "upmax":862 },'+
+    '{"name":"Band83","duplex":"SUL","upmin":703, "upmax":748 },'+
+    '{"name":"Band84","duplex":"SUL","upmin":1920,"upmax":1980},'+
+    '{"name":"Band86","duplex":"SUL","upmin":1710,"upmax":1780},'+
+    '{"name":"Band95","duplex":"SUL","upmin":2010,"upmax":2025}'+
+  ']},'+
+  '{"name":"LTE", "channels":['+
+    '{"name":"Band1", "duplex":"FDD","upmin":1920,"upmax":1980,"dlmin":2110,"dlmax":2170},'+
+    '{"name":"Band2", "duplex":"FDD","upmin":1850,"upmax":1910,"dlmin":1930,"dlmax":1990},'+
+    '{"name":"Band3", "duplex":"FDD","upmin":1710,"upmax":1785,"dlmin":1805,"dlmax":1880},'+
+    '{"name":"Band4", "duplex":"FDD","upmin":1710,"upmax":1785,"dlmin":2110,"dlmax":2155},'+
+    '{"name":"Band5", "duplex":"FDD","upmin":824, "upmax":849, "dlmin":869, "dlmax":894 },'+
+    '{"name":"Band6", "duplex":"FDD","upmin":830, "upmax":840, "dlmin":875, "dlmax":885 },'+
+    '{"name":"Band7", "duplex":"FDD","upmin":2500,"upmax":2570,"dlmin":2620,"dlmax":2690},'+
+    '{"name":"Band8", "duplex":"FDD","upmin":880, "upmax":915, "dlmin":925, "dlmax":960 },'+
+    '{"name":"Band9", "duplex":"FDD","upmin":1749.9, "upmax":1784.9, "dlmin":1844.9, "dlmax":1879.9 },'+
+    '{"name":"Band10","duplex":"FDD","upmin":1710, "upmax":1770, "dlmin":2110, "dlmax":2170 },'+
+    '{"name":"Band11","duplex":"FDD","upmin":1427.9, "upmax":1447.9, "dlmin":1475.9, "dlmax":1495.9 },'+
+    '{"name":"Band12","duplex":"FDD","upmin":699, "upmax":716, "dlmin":729, "dlmax":746 },'+
+    '{"name":"Band13","duplex":"FDD","upmin":777, "upmax":787, "dlmin":746, "dlmax":756 },'+
+    '{"name":"Band14","duplex":"FDD","upmin":788, "upmax":798, "dlmin":758, "dlmax":768 },'+
+    '{"name":"Band17","duplex":"FDD","upmin":704, "upmax":716, "dlmin":734, "dlmax":746 },'+
+    '{"name":"Band18","duplex":"FDD","upmin":815, "upmax":830, "dlmin":860, "dlmax":875 },'+
+    '{"name":"Band19","duplex":"FDD","upmin":830, "upmax":845, "dlmin":875, "dlmax":890 },'+
+    '{"name":"Band20","duplex":"FDD","upmin":832, "upmax":862, "dlmin":791, "dlmax":821 },'+
+    '{"name":"Band21","duplex":"FDD","upmin":1447.9, "upmax":1462.9, "dlmin":1495.9, "dlmax":1510.9 },'+
+    '{"name":"Band22","duplex":"FDD","upmin":3410,"upmax":3490,"dlmin":3510,"dlmax":3590},'+
+    '{"name":"Band23","duplex":"FDD","upmin":2000,"upmax":2020,"dlmin":2180,"dlmax":2200},'+
+    '{"name":"Band24","duplex":"FDD","upmin":1626.5,"upmax":1660.5,"dlmin":1525,"dlmax":1559},'+
+    '{"name":"Band25","duplex":"FDD","upmin":1850,"upmax":1915,"dlmin":1930,"dlmax":1995},'+
+    '{"name":"Band26","duplex":"FDD","upmin":814, "upmax":849, "dlmin":859, "dlmax":894 },'+
+    '{"name":"Band28","duplex":"FDD","upmin":703, "upmax":748, "dlmin":758, "dlmax":803 },'+
+    '{"name":"Band27","duplex":"FDD","upmin":807, "upmax":824, "dlmin":852, "dlmax":869 },'+
+    '{"name":"Band28","duplex":"FDD","upmin":703, "upmax":748, "dlmin":758, "dlmax":803 },'+
+    '{"name":"Band29","duplex":"SDL","dlmin":717,"dlmax":728 },'+
+    '{"name":"Band30","duplex":"FDD","upmin":2305,"upmax":2315,"dlmin":2350,"dlmax":2360},'+
+    '{"name":"Band31","duplex":"FDD","upmin":452.5,"upmax":457.5,"dlmin":462.5,"dlmax":467.5},'+
+    '{"name":"Band32","duplex":"SDL","dlmin":1452,"dlmax":1496},'+
+    '{"name":"Band33","duplex":"TDD","upmin":1900,"upmax":1920,"dlmin":1900,"dlmax":1920},'+
+    '{"name":"Band34","duplex":"TDD","upmin":2010,"upmax":2025,"dlmin":2010,"dlmax":2025},'+
+    '{"name":"Band35","duplex":"TDD","upmin":1850,"upmax":1910,"dlmin":1850,"dlmax":1910},'+
+    '{"name":"Band36","duplex":"TDD","upmin":1930,"upmax":1990,"dlmin":1930,"dlmax":1990},'+
+    '{"name":"Band37","duplex":"TDD","upmin":1910,"upmax":1930,"dlmin":1910,"dlmax":1930},'+
+    '{"name":"Band38","duplex":"TDD","upmin":2570,"upmax":2620,"dlmin":2570,"dlmax":2620},'+
+    '{"name":"Band39","duplex":"TDD","upmin":1880,"upmax":1920,"dlmin":1880,"dlmax":1920},'+
+    '{"name":"Band40","duplex":"TDD","upmin":2300,"upmax":2400,"dlmin":2300,"dlmax":2400},'+
+    '{"name":"Band41","duplex":"TDD","upmin":2496,"upmax":2690,"dlmin":2496,"dlmax":2690},'+
+    '{"name":"Band42","duplex":"TDD","upmin":3400,"upmax":3600,"dlmin":3400,"dlmax":3600},'+
+    '{"name":"Band43","duplex":"TDD","upmin":3600,"upmax":3800,"dlmin":3600,"dlmax":3800},'+
+    '{"name":"Band44","duplex":"TDD","upmin":703,"upmax":803,"dlmin":703,"dlmax":803},'+
+    '{"name":"Band45","duplex":"TDD","upmin":1447,"upmax":1467,"dlmin":1447,"dlmax":1467},'+
+    '{"name":"Band46","duplex":"TDD","upmin":5150,"upmax":5925,"dlmin":5150,"dlmax":5925},'+
+    '{"name":"Band47","duplex":"TDD","upmin":5855,"upmax":5925,"dlmin":5855,"dlmax":5925},'+
+    '{"name":"Band48","duplex":"TDD","upmin":3550,"upmax":3700,"dlmin":3550,"dlmax":3700},'+
+    '{"name":"Band50","duplex":"TDD","upmin":1432,"upmax":1517,"dlmin":1432,"dlmax":1517},'+
+    '{"name":"Band51","duplex":"TDD","upmin":1427,"upmax":1432,"dlmin":1427,"dlmax":1432},'+
+    '{"name":"Band53","duplex":"TDD","upmin":2483.5,"upmax":2495,"dlmin":2483.5,"dlmax":2495},'+
+    '{"name":"Band65","duplex":"FDD","upmin":1920,"upmax":2010,"dlmin":2110,"dlmax":2200},'+
+    '{"name":"Band66","duplex":"FDD","upmin":1710,"upmax":1780,"dlmin":2110,"dlmax":2200},'+
+    '{"name":"Band67","duplex":"SDL","dlmin":738,"dlmax":758},'+
+    '{"name":"Band68","duplex":"FDD","upmin":698,"upmax":728,"dlmin":753,"dlmax":783},'+
+    '{"name":"Band69","duplex":"SDL","dlmin":2570,"dlmax":2620},'+
+    '{"name":"Band70","duplex":"FDD","upmin":1695,"upmax":1710,"dlmin":1995,"dlmax":2020},'+
+    '{"name":"Band71","duplex":"FDD","upmin":663, "upmax":698, "dlmin":617, "dlmax":652 },'+
+    '{"name":"Band72","duplex":"FDD","upmin":451, "upmax":456, "dlmin":461, "dlmax":466 },'+
+    '{"name":"Band73","duplex":"FDD","upmin":450, "upmax":455, "dlmin":460, "dlmax":465 },'+
+    '{"name":"Band74","duplex":"FDD","upmin":1427,"upmax":1470,"dlmin":1475,"dlmax":1518},'+
+    '{"name":"Band75","duplex":"SDL","dlmin":1432,"dlmax":1517},'+
+    '{"name":"Band76","duplex":"SDL","dlmin":1427,"dlmax":1432},'+
+    '{"name":"Band85","duplex":"FDD","upmin":698,"upmax":716,"dlmin":728,"dlmax":746}'+
+  ']},'+
+  '{"name":"U-TRA", "channels":['+
+    '{"name":"BandI","duplex":"FDD","upmin":1920,"upmax":1980,"dlmin":2110,"dlmax":2170},'+
+    '{"name":"BandII","duplex":"FDD","upmin":1850,"upmax":1910,"dlmin":1930,"dlmax":1990},'+
+    '{"name":"BandIII","duplex":"FDD","upmin":1710,"upmax":1785,"dlmin":1805,"dlmax":1880},'+
+    '{"name":"BandIV","duplex":"FDD","upmin":1710,"upmax":1755,"dlmin":2110,"dlmax":2155},'+
+    '{"name":"BandV","duplex":"FDD","upmin":824,"upmax":849,"dlmin":869,"dlmax":894},'+
+    '{"name":"BandVI","duplex":"FDD","upmin":830,"upmax":840,"dlmin":875,"dlmax":885},'+
+    '{"name":"BandVII","duplex":"FDD","upmin":2500,"upmax":2570,"dlmin":2620,"dlmax":2690},'+
+    '{"name":"BandVIII","duplex":"FDD","upmin":880,"upmax":915,"dlmin":925,"dlmax":960},'+
+    '{"name":"BandIX","duplex":"FDD","upmin":1749.9,"upmax":1784.9,"dlmin":1844.9,"dlmax":1879.9},'+
+    '{"name":"BandX","duplex":"FDD","upmin":1710,"upmax":1770,"dlmin":2110,"dlmax":2170},'+
+    '{"name":"BandXI","duplex":"FDD","upmin":1427.9,"upmax":1447.9,"dlmin":1475.9,"dlmax":1495.9},'+
+    '{"name":"BandXII","duplex":"FDD","upmin":699,"upmax":716,"dlmin":729,"dlmax":746},'+
+    '{"name":"BandXIII","duplex":"FDD","upmin":777,"upmax":787,"dlmin":746,"dlmax":756},'+
+    '{"name":"BandXIV","duplex":"FDD","upmin":788,"upmax":798,"dlmin":758,"dlmax":765},'+
+    '{"name":"BandXIX","duplex":"FDD","upmin":830,"upmax":845,"dlmin":875,"dlmax":890},'+
+    '{"name":"BandXX","duplex":"FDD","upmin":832,"upmax":862,"dlmin":791,"dlmax":821},'+
+    '{"name":"BandXXI","duplex":"FDD","upmin":1447.9,"upmax":1462.9,"dlmin":1495.9,"dlmax":1510.9},'+
+    '{"name":"BandXXII","duplex":"FDD","upmin":3410,"upmax":3490,"dlmin":3510,"dlmax":3590},'+
+    '{"name":"BandXXV","duplex":"FDD","upmin":1850,"upmax":1915,"dlmin":1930,"dlmax":1995},'+
+    '{"name":"BandXXVI","duplex":"FDD","upmin":814,"upmax":849,"dlmin":859,"dlmax":894},'+
+    '{"name":"BandXXXII","duplex":"SDL","dlmin":1452,"dlmax":1496},'+
+    '{"name":"Band-a","duplex":"TDD","upmin":1900,"upmax":1920,"dlmin":1900,"dlmax":1920},'+
+    '{"name":"Band-a+","duplex":"TDD","upmin":2010,"upmax":2025,"dlmin":2010,"dlmax":2025},'+
+    '{"name":"Band-b","duplex":"TDD","upmin":1850,"upmax":1910,"dlmin":1850,"dlmax":1910},'+
+    '{"name":"Band-b+","duplex":"TDD","upmin":1930,"upmax":1990,"dlmin":1930,"dlmax":1990},'+
+    '{"name":"Band-c","duplex":"TDD","upmin":1910,"upmax":1930,"dlmin":1910,"dlmax":1930},'+
+    '{"name":"Band-d","duplex":"TDD","upmin":2570,"upmax":2620,"dlmin":2570,"dlmax":2620},'+
+    '{"name":"Band-e","duplex":"TDD","upmin":2300,"upmax":2400,"dlmin":2300,"dlmax":2400},'+
+    '{"name":"Band-f","duplex":"TDD","upmin":1880,"upmax":1920,"dlmin":1800,"dlmax":1920}'+
+  ']}'+
+']}'
+var obj = JSON.parse(strJson);
 //类型，分类的子类，可以用于区分不同频段
+
 var types = [
     {name: 'Band-1', color: '#7b9ce1'},
     {name: 'Band-2', color: '#bd6d6c'},
     {name: 'Band-3', color: '#75d874'},
     {name: 'Band-4', color: '#e0bc78'},
     {name: 'Band-5', color: '#dc77dc'},
-    {name: 'Band-6', color: '#72b362'}
+    {name: 'Band-6', color: '#72b362'},
+    {name: 'Band-6', color: '#1fa6de'},
+    {name: 'Band-6', color: '#54f65e'},
+    {name: 'Band-6', color: '#a4b654'},
+    {name: 'Band-6', color: '#efd65c'},
+    {name: 'Band-6', color: '#f4b1dc'},
+    {name: 'Band-6', color: '#352f1b'},
+    {name: 'Band-6', color: '#35d2f1'}
 ];
 
-
-
-// Generate mock data 生成模拟数据
-// category 
-// index      
-categories.forEach(function (category, index) {
-    var baseTime = startTime;
-        //document.write(category+','+index+','+baseTime+',')
-    //for (var i = 0; i < dataCount; i++) {
-    cnt = Math.round(Math.random() * 10);
-    for (var i = 0; i < cnt; i++) {
-        // typeItem 随机生成types中的数据类型；types为数组类型，选中其中之一，即为：{name: 'JS Heap', color: '#7b9ce1'}
-        var typeItem = types[Math.round(Math.random() * (types.length - 1))];
-        // duration 每个Item的保持时间长度，随机生成。
-        var duration = Math.round(Math.random() * 10000);
-        // data 为数组
-        data.push({
-            // name 数据类型名称
-            name: typeItem.name,
-            value: [
-                index,
-                baseTime,
-                baseTime += duration,
-                duration
-            ],
-            itemStyle: {
-                normal: {
-                    color: typeItem.color
-                }
-            }
-        });
-        
-        //document.write(index+','+duration+','+' - ')
-        //document.write('###'+data[data.length-1].name+'###')
-        baseTime += Math.round(Math.random() * 2000);
-        //baseTime -= 200;
-    }
-    //document.write(' </br> ')
-});
+var categories = [];
+function category(){
+  cnt = obj.rat.length;
+  
+  for (var i = 0; i < cnt; i++){
+    categories.push(obj.rat[i].name);
+  }
+}
+category();
 function abc(){
     var baseTime = startTime;
 
-    var strJson = '{ "rat" : [{ "name":"NR" , "url":"www.runoob.com" },{ "name":"Google" , "url":"www.google.com" },{ "name":"Taobao" , "url":"www.taobao.com" } ]}';
-    var obj = JSON.parse(strJson);
-    document.write(obj.rat[0].name + obj.rat.length)
+    rats = obj.rat.length;
 
-    cnt = obj.rat.length;
-    for (var i = 0; i < cnt; i++) {
-        // typeItem 随机生成types中的数据类型；types为数组类型，选中其中之一，即为：{name: 'JS Heap', color: '#7b9ce1'}
-        var typeItem = types[Math.round(Math.random() * (types.length - 1))];
-        // duration 每个Item的保持时间长度，随机生成。
-        var duration = Math.round(Math.random() * 10000);
-        // data 为数组
-        data.push({
+    // Lev 1
+    for (var j=0; j<rats; j++ ){
+      var index = j;
+      var lev_1 = obj.rat[j]
+      var channel_num = lev_1.channels.length;
+      document.write(channel_num)
+      document.write(lev_1.name)
+      for (var i = 0; i < channel_num; i++) {
+          // typeItem 随机生成types中的数据类型；types为数组类型，选中其中之一，即为：{name: 'JS Heap', color: '#7b9ce1'}
+          //var typeItem = types[Math.round(Math.random() * (types.length - 1))];
+          // duration 每个Item的保持时间长度，随机生成。
+          //var duration = Math.round(Math.random() * 10000);
+          // data 为数组
+          lev_2 = lev_1.channels[i];
+          var color = types[Math.round(Math.random() * (types.length - 1))].color;
+          var data_name = lev_2.name +'-'+ lev_2.duplex;
+          if(lev_2.duplex!=="SUL"){
             // name 数据类型名称
-            name: typeItem.name,
-            value: [
-                index,
-                baseTime,
-                baseTime += duration,
-                duration
-            ],
-            itemStyle: {
-                normal: {
-                    color: typeItem.color
+            var dt_name = data_name
+            if((lev_2.duplex==="FDD")||lev_2.duplex==="SDL"){
+               dt_name+= ' 下行';}
+              
+            data.push({
+                // name 数据类型名称
+                name: dt_name,
+                value: [
+                    //index 指代归属于哪个RAT，该index参数与categories的index一致。
+                    index,
+                    lev_2.dlmin,
+                    lev_2.dlmax,
+                    lev_2.dlmax - lev_2.dlmin
+                ],
+                itemStyle: {
+                    normal: {
+                        color: color
+                    }
                 }
-            }
-        });
+            });
+          }
+          
+          if ((lev_2.duplex==="FDD")||(lev_2.duplex==="SUL")){
+          var dt_name = data_name+' 上行'
+          data.push({
+              // name 数据类型名称
+              name: dt_name,
+              value: [
+                  //index 指代归属于哪个RAT，该index参数与categories的index一致。
+                  index,
+                  lev_2.upmin,
+                  lev_2.upmax,
+                  lev_2.upmax - lev_2.upmin
+              ],
+              itemStyle: {
+                  normal: {
+                      color: color
+                  }
+              }
+          });
+          
+          }
 
-        baseTime += Math.round(Math.random() * 2000);
+          baseTime += Math.round(Math.random() * 2000);
+      }
     }
 }
 //document.write(data[0].name+','+data[0].value[1]+'</br>');
@@ -155,7 +311,7 @@ gridHeight=600
 option = {
     tooltip: {
         formatter: function (params) {
-            return params.marker + params.name + ': </br>开始:'+params.value[1]+ ' (ms) </br>结束:'+params.value[2]+ ' (ms)</br>带宽:'+params.value[3] + ' (ms)';
+            return params.marker + params.name + ': </br>最小:'+params.value[1]+ 'MHz </br>最大:'+params.value[2]+ 'MHz</br>带宽:'+params.value[3] + 'MHz';
         }
     },
     title: {
@@ -178,13 +334,13 @@ option = {
         height: gridHeight
     },
     xAxis: {
-        min: startTime,
+        min: 0,
         scale: false,
         axisLabel: {
             formatter: function (val) {
                 // 图形缩放时会出错
                 //document.write('val: '+val+'</br>');
-                return Math.max(0, val - startTime) + ' ms';
+                return Math.max(0, val) + 'MHz';
                 //return 6000000 + ' ms';
             }
         }
@@ -207,6 +363,7 @@ option = {
 };
 //document.write(typeof(option))
 if (option && typeof option === 'object') {
+    abc()
     myChart.setOption(option);
 }
 
