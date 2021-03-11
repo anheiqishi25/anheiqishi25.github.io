@@ -14,30 +14,21 @@
 	'{ "name":"Taobao" , "url":"www.taobao.com" } 
 ]}';
 
-{
-rat:[
-{name:'NR',
- value[
- {name:Band1,
- duplex:'FDD',
- dlMin:345,
- dlMax:456,
- upMin:789,
- upMax:1011,},
- {name:Band2,
- duplex:'FDD',
- dlMin:345,
- dlMax:456,
- upMin:789,
- upMax:1011,},
- {name:Band3,
- duplex:'FDD',
- dlMin:345,
- dlMax:456,
- upMin:789,
- upMax:1011,},
- 
- ]}
-]
 
-}
+'{"rat":[
+    {"name":"NR", "channels":[
+        {"name":"Band1","duplex":"FDD","dlmin":456,"dlmax":456,"upmin":456,"upmax":"456"},
+        {"name":"Band1","duplex":"FDD","dlmin":"456","dlmax":"456","upmin":"456","upmax":"456"}
+    ]}, 
+    {"name":"lte", "channels":[
+        {"name":"Band1","duplex":"FDD","dlmin":"456","dlmax":"456","upmin":"456","upmax":"456"},
+        {"name":"Band1","duplex":"FDD","dlmin":"456","dlmax":"456","upmin":"456","upmax":"456"}
+    ]},
+    {"name":"u-tra", "channels":[
+        {"name":"Band1","duplex":"FDD","dlmin":"456","dlmax":"456","upmin":"456","upmax":"456"},
+        {"name":"Band1","duplex":"FDD","dlmin":"456","dlmax":"456","upmin":"456","upmax":"456"}
+    ]}
+]}'
+
+
+'{"rat":[{"name":"NR", "channels":[{"name":"Band1","duplex":"FDD","dlmin":456,"dlmax":456,"upmin":456,"upmax":"456"},{"name":"Band2","duplex":"FDD","dlmin":456,"dlmax":456,"upmin":456,"upmax":"456"}]}]}'
