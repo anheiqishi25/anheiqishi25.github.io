@@ -36,5 +36,52 @@
 var defaultVolume = 0.02;
 videojs('my_video_1', {}, function() {
   this.volume(defaultVolume);
-});</script>
+});
+</script>
+<script type="text/javascript">
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return null;
+    }
+    else
+    {
+        begin += 2;
+        var end = document.cookie.indexOf(";", begin);
+        if (end == -1) {
+        end = dc.length;
+        }
+    }
+    // because unescape has been deprecated, replaced with decodeURI
+    //return unescape(dc.substring(begin + prefix.length, end));
+    return decodeURI(dc.substring(begin + prefix.length, end));
+}
+
+var vol = getCookie("Volume");
+if (vol==""){
+  vol=defaultVolume;
+  setCookie("Volume", vol);
+} else{
+videojs('my_video_1', {}, function() {
+  this.volume(vol);
+});
+}
+videojs('my_video_1', {}, function onPlayerReady() {
+  this.on("volumechange",function(){
+        setCookie("Volume", this.volume(), 30);
+    })
+});
+</script>
 </html>
